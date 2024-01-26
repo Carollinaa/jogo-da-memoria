@@ -45,7 +45,7 @@ public class App extends JFrame {
         for (int i = 0; i < cartas.size(); i++) {
             JButton botao = new JButton();
             botao.setPreferredSize(new Dimension(80, 80));
-            botao.setIcon(new ImageIcon(getClass().getResource("/assets/card_back.png")));
+            botao.setIcon(new ImageIcon(getClass().getResource("/assets/interroga.png")));
             botao.addActionListener(new BotaoListener());
             botoes.add(botao);
             painelBotoes.add(botao);
@@ -165,7 +165,7 @@ public class App extends JFrame {
         labelTentativas.setText("Tentativas: 0");
 
         for (JButton botao : botoes) {
-            botao.setIcon(new ImageIcon(getClass().getResource("/assets/card_back.png")));
+            botao.setIcon(new ImageIcon(getClass().getResource("/assets/interroga.png")));
             botao.setEnabled(true);
         }
 
@@ -179,8 +179,8 @@ public class App extends JFrame {
     private void virarCartas() {
         try {
             semaforo.acquire();
-            primeiroBotao.setIcon(new ImageIcon(getClass().getResource("/assets/card_back.png")));
-            segundoBotao.setIcon(new ImageIcon(getClass().getResource("/assets/card_back.png")));
+            primeiroBotao.setIcon(new ImageIcon(getClass().getResource("/assets/interroga.png")));
+            segundoBotao.setIcon(new ImageIcon(getClass().getResource("/assets/interroga.png")));
             primeiroBotao.setEnabled(true);
             segundoBotao.setEnabled(true);
             primeiroBotao = null;
