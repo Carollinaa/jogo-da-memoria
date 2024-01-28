@@ -9,15 +9,17 @@ import java.util.concurrent.Semaphore;
 public class App extends JFrame {
 
 
-    private ArrayList<String> cartas;
-    private ArrayList<JButton> botoes;
-    private JButton primeiroBotao, segundoBotao;
-    private int tentativas;
-    private JLabel labelTempo, labelTentativas;
-    private Timer temporizador;
-    private Semaphore semaforo;
+    private ArrayList<String> cartas;   // Lista de cartas
+    private ArrayList<JButton> botoes;  // Lista de botões na interface
+    private JButton primeiroBotao, segundoBotao;  // Botões para controle do jogo
+    private int tentativas;             // Número de tentativas do jogador
+    private JLabel labelTempo, labelTentativas;  // Rótulos para mostrar tempo e tentativas
+    private Timer temporizador;         // Temporizador para controlar o tempo de jogo
+    private Semaphore semaforo;         // Semáforo para controlar acesso concorrente
 
+    // Construtor da classe
     public App() {
+    // Inicialização das variáveis e configuração inicial do jogo    
         cartas = new ArrayList<>();
         cartas.add("A");
         cartas.add("B");
@@ -36,12 +38,14 @@ public class App extends JFrame {
 
         botoes = new ArrayList<>();
 
+        // Configuração da interface gráfica 
         Container container = getContentPane();
         container.setLayout(new BorderLayout());
 
         JPanel painelBotoes = new JPanel();
         painelBotoes.setLayout(new GridLayout(4, 4, 5, 5));
 
+        // Criação e configuração dos botões na interface
         for (int i = 0; i < cartas.size(); i++) {
             JButton botao = new JButton();
             botao.setPreferredSize(new Dimension(80, 80));
@@ -70,12 +74,14 @@ public class App extends JFrame {
 
         tentativas = 0;
 
+        // Configuração final da janela
         setSize(600, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
     }
 
+    // Classe interna para lidar com eventos de clique nos botões do jogo
     private class BotaoListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -129,6 +135,7 @@ public class App extends JFrame {
         }
     }
 
+    // Classe interna para lidar com eventos do temporizador
     private class TemporizadorListener implements ActionListener {
         private int tempo;
 
@@ -149,6 +156,7 @@ public class App extends JFrame {
         }
     }
 
+    // Classe interna para lidar com eventos de reiniciar o jogo
     private class ReiniciarListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -156,6 +164,7 @@ public class App extends JFrame {
         }
     }
 
+    // Método para reiniciar o jogo
     private void reiniciarJogo() {
         temporizador.stop();
         temporizador = new Timer(1000, new TemporizadorListener());
@@ -164,6 +173,7 @@ public class App extends JFrame {
         tentativas = 0;
         labelTentativas.setText("Tentativas: 0");
 
+        // Reseta a aparência dos botões
         for (JButton botao : botoes) {
             botao.setIcon(new ImageIcon(getClass().getResource("/assets/interroga.png")));
             botao.setEnabled(true);
@@ -176,6 +186,7 @@ public class App extends JFrame {
         segundoBotao = null;
     }
 
+    // Método para virar as cartas de volta após um período
     private void virarCartas() {
         try {
             semaforo.acquire();
@@ -192,6 +203,7 @@ public class App extends JFrame {
         }
     }
 
+    // Método para verificar se todas as cartas foram encontradas
     private boolean verificarVitoria() {
         for (JButton botao : botoes) {
             if (botao.isEnabled()) {
@@ -201,6 +213,7 @@ public class App extends JFrame {
         return true;
     }
 
+    // Método principal para iniciar o aplicativo
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new App());
     }
