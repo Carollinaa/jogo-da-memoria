@@ -8,18 +8,21 @@ import java.util.concurrent.Semaphore;
 
 public class App extends JFrame {
 
-
-    private ArrayList<String> cartas;   // Lista de cartas
-    private ArrayList<JButton> botoes;  // Lista de botões na interface
-    private JButton primeiroBotao, segundoBotao;  // Botões para controle do jogo
-    private int tentativas;             // Número de tentativas do jogador
-    private JLabel labelTempo, labelTentativas;  // Rótulos para mostrar tempo e tentativas
-    private Timer temporizador;         // Temporizador para controlar o tempo de jogo
-    private Semaphore semaforo;         // Semáforo para controlar acesso concorrente
+    private ArrayList<String> cartas; // Lista de cartas
+    private ArrayList<JButton> botoes; // Lista de botões na interface
+    private JButton primeiroBotao, segundoBotao; // Botões para controle do jogo
+    private int tentativas; // Número de tentativas do jogador
+    private JLabel labelTempo, labelTentativas; // Rótulos para mostrar tempo e tentativas
+    private Timer temporizador; // Temporizador para controlar o tempo de jogo
+    private Semaphore semaforo; // Semáforo para controlar acesso concorrente
 
     // Construtor da classe
     public App() {
-    // Inicialização das variáveis e configuração inicial do jogo    
+        // Titulo do jogo
+        setTitle("Jogo da memória");
+        // Impedir de redimencionar a tela
+        setResizable(false);
+        // Inicialização das variáveis e configuração inicial do jogo
         cartas = new ArrayList<>();
         cartas.add("A");
         cartas.add("B");
@@ -38,7 +41,7 @@ public class App extends JFrame {
 
         botoes = new ArrayList<>();
 
-        // Configuração da interface gráfica 
+        // Configuração da interface gráfica
         Container container = getContentPane();
         container.setLayout(new BorderLayout());
 
@@ -95,12 +98,11 @@ public class App extends JFrame {
                 primeiroBotao = botao;
                 primeiroBotao.setIcon(new ImageIcon(
                         getClass().getResource("/assets/card_" + cartas.get(botoes.indexOf(botao)) + ".png")));
-                primeiroBotao.setEnabled(true);
+
             } else if (segundoBotao == null && !botao.equals(primeiroBotao)) {
                 segundoBotao = botao;
                 segundoBotao.setIcon(new ImageIcon(
                         getClass().getResource("/assets/card_" + cartas.get(botoes.indexOf(botao)) + ".png")));
-                segundoBotao.setEnabled(true);
 
                 tentativas++;
 
@@ -108,7 +110,9 @@ public class App extends JFrame {
 
                 // Verifica se as cartas coincidem
                 if (cartas.get(botoes.indexOf(primeiroBotao)).equals(cartas.get(botoes.indexOf(segundoBotao)))) {
-                    JOptionPane.showMessageDialog(App.this, "Par encontrado!");
+
+                    segundoBotao.setEnabled(false);
+                    primeiroBotao.setEnabled(false);
                     primeiroBotao = null;
                     segundoBotao = null;
 
